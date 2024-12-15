@@ -7,23 +7,29 @@
 
 import UIKit
 
+protocol PhotoPreviewDelegate: AnyObject {
+    func confirmPhoto()
+    func retakePhoto()
+}
+
 class PhotoPreviewViewController: UIViewController {
+
+    @IBOutlet weak var previewImageView: UIImageView!
+
+    var image: UIImage?
+    var recognizedText: String?
+    weak var delegate: PhotoPreviewDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        previewImageView.image = image
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func usePhotoTapped(_ sender: UIButton) {
+        delegate?.confirmPhoto()
     }
-    */
 
+    @IBAction func retakePhotoTapped(_ sender: UIButton) {
+        delegate?.retakePhoto()
+    }
 }
