@@ -196,9 +196,9 @@ extension AudioRecognizeViewController {
 // SpeechRecognitionModelDelegate
 extension AudioRecognizeViewController {
     func speechRecognitionDidFinish(transcription: String) {
-        print(transcription)
+        print("Recognized Text: \(transcription)")
     }
     func speechRecognitionDidFail(error: Error) {
-        print(error)
+        print("Error: \(error)")
     }
 }
