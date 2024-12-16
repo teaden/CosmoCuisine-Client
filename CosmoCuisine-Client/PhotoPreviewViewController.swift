@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol PhotoPreviewDelegate: AnyObject {
+protocol PhotoPreviewDelegate {
     func confirmPhoto()
     func retakePhoto()
 }
@@ -18,7 +18,7 @@ class PhotoPreviewViewController: UIViewController {
 
     var image: UIImage?
     var recognizedText: String?
-    weak var delegate: PhotoPreviewDelegate?
+    var delegate: PhotoPreviewDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
