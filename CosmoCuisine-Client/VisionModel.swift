@@ -52,6 +52,12 @@ class VisionModel: NSObject {
         }
     }
     
+    func stopSession() {
+        DispatchQueue.global(qos: .background).async {
+            self.captureSession?.stopRunning()
+        }
+    }
+    
     func capturePhoto() {
         if self.delegate != nil {
             let settings = AVCapturePhotoSettings()

@@ -25,6 +25,11 @@ class VisionOCRViewController: UIViewController {
         visionModel.delegate = self
         self.visionModel.setupCamera(previewView: self.previewView)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.visionModel.stopSession()
+    }
 }
 
 extension VisionOCRViewController: AVCapturePhotoCaptureDelegate {
