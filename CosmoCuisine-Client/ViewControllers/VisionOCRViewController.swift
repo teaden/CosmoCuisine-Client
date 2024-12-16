@@ -18,7 +18,7 @@ class VisionOCRViewController: UIViewController {
         self.visionModel.capturePhoto()
     }
     
-    let visionModel: VisionModel = VisionModel()
+    lazy var visionModel: VisionModel = VisionModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ extension VisionOCRViewController: AVCapturePhotoCaptureDelegate {
 extension VisionOCRViewController: VisionServiceDelegate {
     func showPreview(newImage: UIImage?) {
         
-        if let image = newImage {
+        if newImage != nil {
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let photoPreviewViewController = storyboard.instantiateViewController(withIdentifier: "PhotoPreviewViewController") as! PhotoPreviewViewController
