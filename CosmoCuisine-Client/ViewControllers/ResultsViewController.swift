@@ -10,6 +10,8 @@ import UIKit
 class ResultsViewController: UIViewController {
     private let repository: CoreDataRepository
     private let ocrResults: [String]
+    private let query: String
+    private let lang: String
     private var products: [ProductEntity] = []
 
     // UI elements
@@ -19,9 +21,11 @@ class ResultsViewController: UIViewController {
     private var pageViewController: UIPageViewController?
     private var pageControl: UIPageControl?
 
-    init(repository: CoreDataRepository, ocrResults: [String]) {
+    init(repository: CoreDataRepository, ocrResults: [String], query: String, lang: String) {
         self.repository = repository
         self.ocrResults = ocrResults
+        self.query = query
+        self.lang = lang
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -36,7 +40,8 @@ class ResultsViewController: UIViewController {
         showLoadingView()
 
         DispatchQueue.global(qos: .userInitiated).async {
-            let matchedRecords = try? self.repository.fetchLevDistBrandsJP(for: self.ocrResults)
+            
+            let matchedRecords = try? self.queryFunction()(self.ocrResults)
             DispatchQueue.main.async {
                 self.hideLoadingView()
                 if let records = matchedRecords, !records.isEmpty {
@@ -47,6 +52,22 @@ class ResultsViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func queryFunction() -> ([String]) throws -> [ProductEntity] {
+        if self.query == "cat" {
+            if self.lang == "ja" {
+                return self.repository.fetchMatchingCategoriesJP
+            } else {
+                return self.repository.fetchLevDistCategoriesUS
+            }
+        }
+        
+        if self.query == "brand" {
+            return self.repository.fetchLevDistBrandsJP
+        }
+        
+        return self.repository.fetchLevDistBrandsJP
     }
 
     // MARK: - Loading View
@@ -146,7 +167,8 @@ class ResultsViewController: UIViewController {
     private func pageForProduct(at index: Int) -> UIViewController? {
         guard index >= 0 && index < products.count else { return nil }
         let product = products[index]
-        let vc = ProductPageViewController(product: product)
+        // Pass lang and query to ProductPageViewController
+        let vc = ProductPageViewController(product: product, lang: self.lang, query: self.query)
         vc.pageIndex = index
         return vc
     }

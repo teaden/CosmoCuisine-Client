@@ -66,6 +66,83 @@ class CoreDataRepository {
         }
     }
     
+    func fetchMatchingCategoriesJP(for strings: [String]) throws -> [ProductEntity] {
+        guard !strings.isEmpty else { return [] }
+
+        return try context.performAndWait {
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            let allProducts = try context.fetch(request)
+
+            return allProducts.filter { product in
+                guard let category = product.category_jp, !category.isEmpty else { return false }
+
+                for originalStr in strings {
+                    // Generate all substrings of originalStr
+                    let substrings = StringComparison.allSubstrings(of: originalStr)
+
+                    // Check if any substring exactly equals category
+                    for substring in substrings {
+                        if category == substring {
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
+        }
+    }
+    
+    func fetchLevDistCategoriesJP(for strings: [String]) throws -> [ProductEntity] {
+        guard !strings.isEmpty else { return [] }
+
+        return try context.performAndWait {
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            let allProducts = try context.fetch(request)
+
+            return allProducts.filter { product in
+                guard let category = product.category_jp, !category.isEmpty else { return false }
+
+                for originalStr in strings {
+                    // Generate all substrings of originalStr
+                    let substrings = StringComparison.allSubstrings(of: originalStr)
+
+                    // Check each substring's Levenshtein distance to category
+                    for substring in substrings {
+                        let distance = StringComparison.levenshteinDistance(category, substring)
+                        if distance <= 1 {
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
+        }
+    }
+    
+    func fetchLevDistCategoriesUS(for strings: [String]) throws -> [ProductEntity] {
+        guard !strings.isEmpty else { return [] }
+
+        return try context.performAndWait {
+            // Fetch all products or a broad set of them
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            let allProducts = try context.fetch(request)
+
+            // Filter in memory based on Levenshtein distance
+            // A product matches if ANY of the given input strings has a distance of <= 1 from category_us
+            return allProducts.filter { product in
+                guard let category = product.category_us, !category.isEmpty else { return false }
+                for str in strings {
+                    // Compare lowercase of OCR string to lowercase of database record categories
+                    let distance = StringComparison.levenshteinDistance(category.lowercased(), str.lowercased())
+                    if distance <= 1 {
+                        return true
+                    }
+                }
+                return false
+            }
+        }
+    }
+    
     // Returns the total number of ProductEntity records in the store.
     func countAllProducts() throws -> Int {
         return try context.performAndWait {
@@ -115,18 +192,36 @@ class CoreDataRepository {
             product.iron_us = NSDecimalNumber(string: itemData.iron_us)
             product.iron_jp = NSDecimalNumber(string: itemData.iron_jp)
 
-            if let imageName = itemData.image_us,
-               let imageURL = Bundle.main.url(forResource: imageName, withExtension: nil),
-               let imageData = try? Data(contentsOf: imageURL) {
-                product.image_us = imageData
+            if let imageNameUs = itemData.image_us {
+                let imageNameComponents = imageNameUs.split(separator: ".")
+                if imageNameComponents.count == 2 {
+                    let name = String(imageNameComponents[0].split(separator: "/")[2])
+                    let ext = String(imageNameComponents[1])
+                    if let imageURL = Bundle.main.url(forResource: name, withExtension: ext),
+                       let imageData = try? Data(contentsOf: imageURL) {
+                        product.image_us = imageData
+                    } else {
+                        product.image_us = nil
+                    }
+                } else {
+                    product.image_us = nil
+                }
             } else {
                 product.image_us = nil
             }
 
-            let imageJpURL = Bundle.main.url(forResource: itemData.image_jp, withExtension: nil)
-            if let jpURL = imageJpURL {
-               let imageJpData = try? Data(contentsOf: jpURL)
-               product.image_jp = imageJpData
+            let imageNameComponents = itemData.image_jp.split(separator: ".")
+            if imageNameComponents.count == 2 {
+                let name = String(imageNameComponents[0].split(separator: "/")[2])
+                let ext = String(imageNameComponents[1])
+                if let imageURL = Bundle.main.url(forResource: name, withExtension: ext),
+                   let imageData = try? Data(contentsOf: imageURL) {
+                    product.image_jp = imageData
+                } else {
+                    product.image_jp = nil
+                }
+            } else {
+                product.image_jp = nil
             }
 
             return product

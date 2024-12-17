@@ -14,7 +14,6 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set(false, forKey: "hasImportedData")
         
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }

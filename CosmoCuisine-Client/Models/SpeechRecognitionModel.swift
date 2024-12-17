@@ -16,6 +16,7 @@ protocol SpeechRecognitionModelDelegate: AnyObject {
 
 class SpeechRecognitionModel {
     
+    var lang: String?
     weak var delegate: SpeechRecognitionModelDelegate?
     
     private var speechRecognizer: SFSpeechRecognizer?
@@ -27,7 +28,6 @@ class SpeechRecognitionModel {
         SFSpeechRecognizer.requestAuthorization { status in
             if status == .authorized {
                 // Instantiate recognizer if access is granted
-                self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
                 print("Speech Recognition access granted!")
             } else {
                 print("Speech Recognition access unapproved!")
@@ -38,10 +38,17 @@ class SpeechRecognitionModel {
     
    
     // Transcribe an audio file given a language identifier and a URL to the audio file
-    func transcribeFile() {
-        
+    func transcribeFile(lang: String) {
         // Cancel any ongoing tasks
         cancelTranscription()
+        
+        if lang != self.lang {
+            if lang == "ja" {
+                self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))
+            } else {
+                self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+            }
+        }
         
         // Get the file URL for the recording.wav in the app's documents directory
         let fileName = "recording.wav"

@@ -37,11 +37,6 @@ class VisionOCRViewController: UIViewController {
         super.viewWillAppear(animated)
         self.visionModel.startSession()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.visionModel.stopSession()
-    }
 }
 
 extension VisionOCRViewController: AVCapturePhotoCaptureDelegate {
@@ -93,7 +88,7 @@ extension VisionOCRViewController: PhotoPreviewDelegate {
         // Send OCR data to CoreData or NetworkingModel functionality here
         dismiss(animated: true)
         let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
-        let resultsVC = ResultsViewController(repository: repository, ocrResults: self.ocrResults!)
+        let resultsVC = ResultsViewController(repository: repository, ocrResults: self.ocrResults!, query: "brand", lang: "ja")
         self.navigationController?.pushViewController(resultsVC, animated: true)
     }
     

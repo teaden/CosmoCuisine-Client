@@ -43,5 +43,18 @@ class StringComparison {
 
         return dp[s1Count][s2Count]
     }
+    
+    // Helper function to generate all substrings of a given string
+    static func allSubstrings(of str: String) -> [String] {
+        let chars = Array(str)
+        var result = [String]()
+        for i in 0..<chars.count {
+            for j in i..<chars.count {
+                let substring = String(chars[i...j])
+                result.append(substring)
+            }
+        }
+        return result
+    }
 
 }

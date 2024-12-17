@@ -9,7 +9,7 @@ import UIKit
 
 // This model uses delegation to interact with the main controller
 protocol ClientDelegate {
-    func receiveResponse(code: Any, strData: Any)
+    func receiveResponse(code: Int, strData: String)
 }
 
 enum RequestEnum: String {
@@ -57,7 +57,7 @@ class NetworkingModel: NSObject, URLSessionDelegate{
     
     // MARK: Main Functions
     // Post data without a label
-        func sendData(modelName: String) {
+        func sendData() {
             // create a custom HTTP POST request
             let baseURL = "http://\(server_ip):8000/predict"
             let postUrl = URL(string: "\(baseURL)")
@@ -116,7 +116,7 @@ class NetworkingModel: NSObject, URLSessionDelegate{
                 }
         
                 if error != nil {
-                    if let res = response{
+                    if response != nil {
                         delegate.receiveResponse(code: 500, strData: "No ML prediction received from server")
                     }
                 }

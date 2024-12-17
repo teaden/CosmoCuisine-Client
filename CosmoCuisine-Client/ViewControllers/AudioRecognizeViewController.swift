@@ -7,23 +7,16 @@
 
 import UIKit
 
-class AudioRecognizeViewController: UIViewController, AudioModelDelegate, SpeechRecognitionModelDelegate {
+class AudioRecognizeViewController: UIViewController, AudioModelDelegate, SpeechRecognitionModelDelegate, ClientDelegate {
+    
+    var lang: String?
     
     // Instantiate models
+//    lazy var classifierModel: SpokenLanguageClassificationModel = SpokenLanguageClassificationModel()
     lazy var audioModel: AudioModel = AudioModel()
     lazy var networkingModel: NetworkingModel = NetworkingModel()
-    lazy var classifierModel: SpokenLanguageClassificationModel = SpokenLanguageClassificationModel()
     lazy var speechRecognizerModel: SpeechRecognitionModel = SpeechRecognitionModel()
     
-    // Create reusable animation for updating responseTextView based on server responses
-    lazy var animation = {
-        let tmp = CATransition()
-        tmp.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        tmp.type = CATransitionType.reveal
-        tmp.duration = 0.5
-        return tmp
-    }()
-        
     // Allows for displaying time down to centiseconds of currently recording audio
     private var recordingTimer: Timer?
     private var elapsedTime = 0
@@ -38,6 +31,7 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
     @IBOutlet weak var startRecordingButton: UIButton!
     @IBOutlet weak var stopRecordingButton: UIButton!
     @IBOutlet weak var getFoodButton: UIButton!
+    @IBOutlet weak var audioProcessingLabel: UILabel!
     
     // IBActions
     @IBAction func playRecordingButtonTapped(_ sender: UIButton) {
@@ -54,14 +48,25 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
     
     @IBAction func getFoodButtonTapped(_ sender: UIButton) {
         if sendable {
+            self.audioProcessingLabel.isHidden = false
 //            classifierModel.predict()
-            speechRecognizerModel.transcribeFile()
+            networkingModel.sendData()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeStateAndAudio()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.audioProcessingLabel.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.speechRecognizerModel.cancelTranscription()
     }
     
     // Updates recordingTimeLabel.text with duration of currently recording audio
@@ -86,6 +91,7 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
             self.startRecordingButton.isHidden = true
             self.stopRecordingButton.isHidden = true
             self.getFoodButton.isHidden = true
+            self.audioProcessingLabel.isHidden = true
         }
         
         // Manually ask for permission to record
@@ -102,6 +108,7 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
                             // Set up delegates and data sources after mic and speech recognizer access
                             self?.audioModel.delegate = self
                             self?.speechRecognizerModel.delegate = self
+                            self?.networkingModel.delegate = self
                             
                             // These elements should always be visible after accesses granted
                             self?.startRecordingButton.isHidden = false
@@ -193,12 +200,42 @@ extension AudioRecognizeViewController {
     }
 }
 
-// SpeechRecognitionModelDelegate
+// SpeechRecognitionModelDelegate functions
 extension AudioRecognizeViewController {
     func speechRecognitionDidFinish(transcription: String) {
-        print("Recognized Text: \(transcription)")
+        if self.lang == "en" {
+            let ocrResults = transcription.split(separator: " ").map { String($0) }
+            print("Recognized Text: \(ocrResults)")
+            let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
+            let resultsVC = ResultsViewController(repository: repository, ocrResults: ocrResults, query: "cat", lang: lang!)
+            self.navigationController?.pushViewController(resultsVC, animated: true)
+        }
+        
+        else if self.lang == "ja" {
+            print("Recognized Text: \(transcription)")
+            let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
+            let resultsVC = ResultsViewController(repository: repository, ocrResults: [transcription], query: "cat", lang: lang!)
+            self.navigationController?.pushViewController(resultsVC, animated: true)
+        }
     }
+    
     func speechRecognitionDidFail(error: Error) {
         print("Error: \(error)")
     }
 }
+
+// Client Delegate functions
+extension AudioRecognizeViewController {
+    func receiveResponse(code: Int, strData: String) {
+        if code != 500 {
+            print("Lang: \(strData)")
+            if strData == "en" || strData == "ja" {
+                self.lang = strData
+                speechRecognizerModel.transcribeFile(lang: self.lang!)
+            } else {
+                print("Please speak in English or Japanese in a clearer fashion")
+            }
+        }
+    }
+}
+
