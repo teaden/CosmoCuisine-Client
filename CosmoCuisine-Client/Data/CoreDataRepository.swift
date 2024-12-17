@@ -18,6 +18,16 @@ class CoreDataRepository {
         guard !strings.isEmpty else { return [] }
         
         return try context.performAndWait {
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "brand_jp IN %@", strings)
+            return try context.fetch(request)
+        }
+    }
+    
+    func fetchPartialMatchingBrandsJP(for strings: [String]) throws -> [ProductEntity] {
+        guard !strings.isEmpty else { return [] }
+        
+        return try context.performAndWait {
             // Create a series of subpredicates, each checking if brand_jp CONTAINS one of the strings
             let subPredicates = strings.map { str in
                 NSPredicate(format: "brand_jp CONTAINS[cd] %@", str)
@@ -30,6 +40,29 @@ class CoreDataRepository {
             request.predicate = compoundPredicate
 
             return try context.fetch(request)
+        }
+    }
+    
+    func fetchLevDistBrandsJP(for strings: [String]) throws -> [ProductEntity] {
+        guard !strings.isEmpty else { return [] }
+
+        return try context.performAndWait {
+            // Fetch all products or a broad set of them
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            let allProducts = try context.fetch(request)
+
+            // Filter in memory based on Levenshtein distance
+            // A product matches if ANY of the given input strings has a distance of <= 1 from brand_jp
+            return allProducts.filter { product in
+                guard let brand = product.brand_jp, !brand.isEmpty else { return false }
+                for str in strings {
+                    let distance = StringComparison.levenshteinDistance(brand, str)
+                    if distance <= 1 {
+                        return true
+                    }
+                }
+                return false
+            }
         }
     }
     

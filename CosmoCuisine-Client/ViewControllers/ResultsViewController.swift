@@ -36,7 +36,7 @@ class ResultsViewController: UIViewController {
         showLoadingView()
 
         DispatchQueue.global(qos: .userInitiated).async {
-            let matchedRecords = try? self.repository.fetchMatchingBrandsJP(for: self.ocrResults)
+            let matchedRecords = try? self.repository.fetchLevDistBrandsJP(for: self.ocrResults)
             DispatchQueue.main.async {
                 self.hideLoadingView()
                 if let records = matchedRecords, !records.isEmpty {

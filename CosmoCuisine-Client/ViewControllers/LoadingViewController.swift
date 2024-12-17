@@ -14,6 +14,7 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.set(false, forKey: "hasImportedData")
         
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
@@ -31,6 +32,7 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
             DispatchQueue.main.async {
                 // Instantiate your main view controller from storyboard
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
                 let navVC = storyboard.instantiateInitialViewController() as! UINavigationController
                 self.view.window?.rootViewController = navVC
                 self.view.window?.makeKeyAndVisible()
