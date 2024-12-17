@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23507" systemVersion="24A335" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="ProductEntity" representedClassName="ProductEntity" syncable="YES">
+        <attribute name="brand_jp" attributeType="String"/>
+        <attribute name="brand_us" attributeType="String"/>
+        <attribute name="calcium_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="calcium_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="carbs_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="carbs_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="category_jp" attributeType="String"/>
+        <attribute name="category_us" attributeType="String"/>
+        <attribute name="cholesterol_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="cholesterol_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="energy_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="energy_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="fat_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="fat_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="fiber_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="fiber_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="image_jp" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="image_us" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="iron_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="iron_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="proteins_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="proteins_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="salt_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="salt_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="sat_fat_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="sat_fat_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="sugars_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="sugars_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="trans_fat_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="trans_fat_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="vit_a_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="vit_a_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="vit_c_jp" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="vit_c_us" attributeType="Decimal" defaultValueString="0.0"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+</model>

@@ -95,8 +95,7 @@ class VisionModel: NSObject {
         
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = true
-        // Set languages if desired. For example, English:
-        request.recognitionLanguages = ["en"]
+        request.recognitionLanguages = ["ja"]   // Set language to Japanese
         
         let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
         let requestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: cgOrientation, options: [:])

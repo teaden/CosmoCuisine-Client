@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		48469AB82D10B84600D048DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48469AB62D10B82000D048DD /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		48469AB62D10B82000D048DD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		48BBE1E02D0CC1C2005D719F /* CosmoCuisine-Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CosmoCuisine-Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,16 +41,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48469AB82D10B84600D048DD /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		48469AB52D10B82000D048DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				48469AB62D10B82000D048DD /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		48BBE1D72D0CC1C2005D719F = {
 			isa = PBXGroup;
 			children = (
 				48BBE1E22D0CC1C2005D719F /* CosmoCuisine-Client */,
+				48469AB52D10B82000D048DD /* Frameworks */,
 				48BBE1E12D0CC1C2005D719F /* Products */,
 			);
 			sourceTree = "<group>";
