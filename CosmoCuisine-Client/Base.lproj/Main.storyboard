@@ -173,37 +173,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9a-no-grZ">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="742"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="95W-kF-Xo7">
-                                        <rect key="frame" x="142" y="677" width="109" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Take Photo"/>
-                                        <connections>
-                                            <action selector="capturePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dbo-Dk-gRL"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="616"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="95W-kF-Xo7">
+                                <rect key="frame" x="142" y="654" width="109" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Take Photo"/>
+                                <connections>
+                                    <action selector="capturePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dbo-Dk-gRL"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Processing Photo..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6G-gh-ASo">
+                                <rect key="frame" x="0.0" y="625" width="393" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="a9a-no-grZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Esh-e4-tWI"/>
                             <constraint firstItem="a9a-no-grZ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ORc-Aq-COw"/>
-                            <constraint firstAttribute="bottom" secondItem="a9a-no-grZ" secondAttribute="bottom" id="jc6-wM-QPt"/>
+                            <constraint firstAttribute="bottom" secondItem="a9a-no-grZ" secondAttribute="bottom" constant="126" id="jc6-wM-QPt"/>
                             <constraint firstItem="a9a-no-grZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yAB-oO-tE1"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="photoCaptureButton" destination="95W-kF-Xo7" id="Jz3-zB-sXD"/>
                         <outlet property="previewView" destination="a9a-no-grZ" id="BJR-md-TWF"/>
+                        <outlet property="processingLabel" destination="h6G-gh-ASo" id="nTc-aG-Rjc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="-728"/>
+            <point key="canvasLocation" x="-338.16793893129767" y="-728.16901408450713"/>
         </scene>
         <!--Photo Preview View Controller-->
         <scene sceneID="M4z-zy-jrJ">
@@ -213,12 +220,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHG-pZ-May">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHO-ms-adh">
-                                <rect key="frame" x="216" y="783" width="103" height="35"/>
+                                <rect key="frame" x="216" y="703" width="103" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Use Photo">
@@ -229,7 +232,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohI-ad-vHU">
-                                <rect key="frame" x="56" y="783" width="126" height="35"/>
+                                <rect key="frame" x="56" y="703" width="126" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Retake Photo">
@@ -239,9 +242,13 @@
                                     <action selector="retakePhotoTapped:" destination="lVg-v7-die" eventType="touchUpInside" id="IFS-Aq-mCe"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHG-pZ-May">
+                                <rect key="frame" x="0.0" y="59" width="393" height="616"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NuB-An-ovP"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="previewImageView" destination="IHG-pZ-May" id="Lk0-HQ-5Td"/>
@@ -249,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6J-Pv-YwB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="671" y="-728"/>
+            <point key="canvasLocation" x="670.99236641221376" y="-728.16901408450713"/>
         </scene>
     </scenes>
     <resources>

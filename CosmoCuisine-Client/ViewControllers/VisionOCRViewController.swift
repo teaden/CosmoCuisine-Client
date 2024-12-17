@@ -13,8 +13,13 @@ class VisionOCRViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var previewView: UIView!
-
+    @IBOutlet weak var processingLabel: UILabel!
+    @IBOutlet weak var photoCaptureButton: UIButton!
+    
     @IBAction func capturePhoto(_ sender: UIButton) {
+        processingLabel.isHidden = false
+        photoCaptureButton.isHidden = true
+        
         self.visionModel.capturePhoto()
     }
     
@@ -22,6 +27,7 @@ class VisionOCRViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        processingLabel.isHidden = true
         visionModel.delegate = self
         self.visionModel.setupCamera(previewView: self.previewView)
     }
@@ -66,6 +72,10 @@ extension VisionOCRViewController: VisionServiceDelegate {
             }
         }
     }
+    
+    func handleCamera() {
+        self.visionModel.stopSession()
+    }
 }
 
 extension VisionOCRViewController: PhotoPreviewDelegate {
@@ -76,5 +86,11 @@ extension VisionOCRViewController: PhotoPreviewDelegate {
     
     func retakePhoto() {
         dismiss(animated: true)
+    }
+    
+    func restoreUI() {
+        self.visionModel.startSession()
+        processingLabel.isHidden = true
+        photoCaptureButton.isHidden = false
     }
 }

@@ -12,6 +12,7 @@ import Vision
 
 protocol VisionServiceDelegate {
     func showPreview(newImage: UIImage?)
+    func handleCamera()
 }
 
 class VisionModel: NSObject {
@@ -47,16 +48,24 @@ class VisionModel: NSObject {
         videoPreviewLayer.frame = previewView.bounds
         previewView.layer.insertSublayer(videoPreviewLayer, at: 0)
         
+        startSession()
+    }
+    
+    func startSession() {
         DispatchQueue.global(qos: .background).async {
-            self.captureSession.startRunning()
+            if let session = self.captureSession, !session.isRunning {
+                session.startRunning()
+            }
         }
     }
+    
     
     func stopSession() {
         DispatchQueue.global(qos: .background).async {
             self.captureSession?.stopRunning()
         }
     }
+    
     
     func capturePhoto() {
         if self.delegate != nil {
@@ -165,6 +174,7 @@ extension VisionModel: AVCapturePhotoCaptureDelegate {
         }
         
         // Now that we have an image, run OCR
+        delegate?.handleCamera()
         processImage(image)
     }
 }

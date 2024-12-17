@@ -14,7 +14,6 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set(false, forKey: "hasImportedData")
 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -24,6 +23,9 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
             if !hasImportedData {
                 self.dataImporter?.delegate = self
                 self.dataImporter?.importDataFromJSON()
+                UserDefaults.standard.set(true, forKey: "hasImportedData")
+            } else {
+                print("Products available in CoreData!")
             }
 
             DispatchQueue.main.async {

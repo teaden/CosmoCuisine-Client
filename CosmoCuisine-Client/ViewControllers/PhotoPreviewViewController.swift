@@ -10,6 +10,7 @@ import UIKit
 protocol PhotoPreviewDelegate {
     func confirmPhoto()
     func retakePhoto()
+    func restoreUI()
 }
 
 class PhotoPreviewViewController: UIViewController {
@@ -23,6 +24,13 @@ class PhotoPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         previewImageView.image = image
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.restoreUI()
+
+        // Your code to be executed before the view disappears
     }
 
     @IBAction func usePhotoTapped(_ sender: UIButton) {
