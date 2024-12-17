@@ -13,6 +13,7 @@ import Vision
 protocol VisionServiceDelegate {
     func showPreview(newImage: UIImage?)
     func handleCamera()
+    func processOCRResults(ocrResults: [String])
 }
 
 class VisionModel: NSObject {
@@ -47,8 +48,6 @@ class VisionModel: NSObject {
         videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.frame = previewView.bounds
         previewView.layer.insertSublayer(videoPreviewLayer, at: 0)
-        
-        startSession()
     }
     
     func startSession() {
@@ -62,7 +61,9 @@ class VisionModel: NSObject {
     
     func stopSession() {
         DispatchQueue.global(qos: .background).async {
-            self.captureSession?.stopRunning()
+            if let session = self.captureSession, session.isRunning {
+                session.stopRunning()
+            }
         }
     }
     
@@ -97,6 +98,7 @@ class VisionModel: NSObject {
             }
             
             print("Recognized Strings:\n", recognizedStrings)
+            self.delegate?.processOCRResults(ocrResults: recognizedStrings)
             
             // Draw bounding boxes
             self.drawBoundingBoxes(for: observations, on: image)

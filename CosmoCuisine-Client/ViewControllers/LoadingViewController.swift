@@ -14,8 +14,8 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        DispatchQueue.main.async { [weak self] in
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
 
             // Check UserDefaults and import data
@@ -30,8 +30,10 @@ class LoadingViewController: UIViewController, DataImporterDelegate {
 
             DispatchQueue.main.async {
                 // Instantiate your main view controller from storyboard
-                let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SegmentedViewController") as! SegmentedViewController
-                self.view.window?.rootViewController = mainVC // Present the main view controller
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let navVC = storyboard.instantiateInitialViewController() as! UINavigationController
+                self.view.window?.rootViewController = navVC
+                self.view.window?.makeKeyAndVisible()
             }
         }
     }

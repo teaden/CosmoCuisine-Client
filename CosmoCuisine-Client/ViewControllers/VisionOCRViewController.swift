@@ -24,12 +24,18 @@ class VisionOCRViewController: UIViewController {
     }
     
     lazy var visionModel: VisionModel = VisionModel()
+    var ocrResults: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         processingLabel.isHidden = true
         visionModel.delegate = self
         self.visionModel.setupCamera(previewView: self.previewView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.visionModel.startSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,12 +82,19 @@ extension VisionOCRViewController: VisionServiceDelegate {
     func handleCamera() {
         self.visionModel.stopSession()
     }
+    
+    func processOCRResults(ocrResults: [String]) {
+        self.ocrResults = ocrResults
+    }
 }
 
 extension VisionOCRViewController: PhotoPreviewDelegate {
     func confirmPhoto() {
         // Send OCR data to CoreData or NetworkingModel functionality here
         dismiss(animated: true)
+        let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
+        let resultsVC = ResultsViewController(repository: repository, ocrResults: self.ocrResults!)
+        self.navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     func retakePhoto() {
