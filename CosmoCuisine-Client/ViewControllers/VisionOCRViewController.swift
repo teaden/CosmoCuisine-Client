@@ -88,7 +88,7 @@ extension VisionOCRViewController: PhotoPreviewDelegate {
         // Send OCR data to CoreData or NetworkingModel functionality here
         dismiss(animated: true)
         let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
-        let resultsVC = ResultsViewController(repository: repository, ocrResults: self.ocrResults!, query: "brand", lang: "ja")
+        let resultsVC = ResultsViewController(repository: repository, ocrResults: self.ocrResults!, query: "brand", lang: "en")
         self.navigationController?.pushViewController(resultsVC, animated: true)
     }
     

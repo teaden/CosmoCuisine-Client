@@ -32,6 +32,7 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
     @IBOutlet weak var stopRecordingButton: UIButton!
     @IBOutlet weak var getFoodButton: UIButton!
     @IBOutlet weak var audioProcessingLabel: UILabel!
+    @IBOutlet weak var speechWarningText: UILabel!
     
     // IBActions
     @IBAction func playRecordingButtonTapped(_ sender: UIButton) {
@@ -92,6 +93,7 @@ class AudioRecognizeViewController: UIViewController, AudioModelDelegate, Speech
             self.stopRecordingButton.isHidden = true
             self.getFoodButton.isHidden = true
             self.audioProcessingLabel.isHidden = true
+            self.speechWarningText.isHidden = true
         }
         
         // Manually ask for permission to record
@@ -209,9 +211,7 @@ extension AudioRecognizeViewController {
             let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
             let resultsVC = ResultsViewController(repository: repository, ocrResults: ocrResults, query: "cat", lang: lang!)
             self.navigationController?.pushViewController(resultsVC, animated: true)
-        }
-        
-        else if self.lang == "ja" {
+        } else if self.lang == "ja" {
             print("Recognized Text: \(transcription)")
             let repository = CoreDataRepository(context: PersistenceController.shared.container.viewContext)
             let resultsVC = ResultsViewController(repository: repository, ocrResults: [transcription], query: "cat", lang: lang!)
@@ -234,6 +234,15 @@ extension AudioRecognizeViewController {
                 speechRecognizerModel.transcribeFile(lang: self.lang!)
             } else {
                 print("Please speak in English or Japanese in a clearer fashion")
+                
+                DispatchQueue.main.async {
+                    self.audioProcessingLabel.isHidden = true
+                    self.speechWarningText.isHidden = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.speechWarningText.isHidden = true
+                 }
             }
         }
     }

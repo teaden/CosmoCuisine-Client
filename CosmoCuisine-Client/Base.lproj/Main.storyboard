@@ -77,6 +77,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Requires Clearer Speech (English or Japanese)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CmT-y3-7au">
+                                <rect key="frame" x="16" y="442" width="377" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WZr-C4-Dua"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -87,13 +94,14 @@
                         <outlet property="playRecordingButton" destination="Szl-5H-kv8" id="pgB-cq-w3Y"/>
                         <outlet property="recordingStatusLabel" destination="2vL-Ll-iQN" id="LBb-aZ-96F"/>
                         <outlet property="recordingTimeLabel" destination="lWJ-zK-tJW" id="cOy-Z1-7IV"/>
+                        <outlet property="speechWarningText" destination="CmT-y3-7au" id="Bfj-Xg-cUi"/>
                         <outlet property="startRecordingButton" destination="xSY-Eh-DxV" id="idG-dM-cHE"/>
                         <outlet property="stopRecordingButton" destination="Yb1-SK-Jme" id="Eq4-2q-GxG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GzS-5S-lYR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="4"/>
+            <point key="canvasLocation" x="-338.16793893129767" y="3.5211267605633805"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="k3A-bT-qAU">
@@ -170,7 +178,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ZT5-zj-63L">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="CVj-Xr-Q1d">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="CVj-Xr-Q1d">
                             <rect key="frame" x="140" y="6" width="113" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
