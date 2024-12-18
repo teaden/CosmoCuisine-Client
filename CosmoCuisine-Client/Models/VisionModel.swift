@@ -90,6 +90,8 @@ class VisionModel: NSObject {
             
             guard let observations = request.results as? [VNRecognizedTextObservation], !observations.isEmpty else {
                 print("No text recognized.")
+                self.delegate?.processOCRResults(ocrResults: [])
+                self.delegate?.showPreview(newImage: nil)
                 return
             }
             
