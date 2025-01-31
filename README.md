@@ -10,7 +10,7 @@ CosmoCuisine can also use audio data from the iPhone microphone to aid in the fo
 2. Select the desired target (e.g., simulator or device).
 3. Press the "Build and Run" button (or use the Cmd + R shortcut).
 
-Note: To use the speech recognition features, additionally follow the [steps outlined for the server code](https://github.com/teaden/CosmoCuisine-Server)).
+Note: To use the speech recognition features, additionally follow the [steps outlined for the server code](https://github.com/teaden/CosmoCuisine-Server).
 
 ## Prerequisites:
 
